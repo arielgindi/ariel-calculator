@@ -96,9 +96,23 @@ def postfix_caculator(tokens):
 
     return output_queue[0].value
 
+def clean_expression(expression):
+    expression = expression.replace(" ", "")
 
-expression_str = "3.14 + 5 * 10 - 2"
-tokens = tokenize(expression_str)
+    while "++" in expression or "--" in expression or "+-" in expression or "-+" in expression:
+        expression = expression.replace("++", "+")
+        expression = expression.replace("--", "+")
+        expression = expression.replace("+-", "-")
+        expression = expression.replace("-+", "-")
+
+    return expression
+
+
+expression_str = "3.14 + 5 * 10 -2"
+
+clean_str = clean_expression(expression_str)
+
+tokens = tokenize(clean_str)
 print(tokens)
 
 postfix = convert_to_postfix(tokens)
@@ -106,3 +120,5 @@ print(postfix)
 
 result = postfix_caculator(postfix)
 print(result)
+
+
