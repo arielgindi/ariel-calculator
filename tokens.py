@@ -1,4 +1,4 @@
-from operations import operator_precedence
+from operations import OPERATOR_PRECEDENCE
 
 class Token:
     VALID_TYPES = {"NUMBER", "OPERATOR"}
@@ -8,7 +8,11 @@ class Token:
             raise ValueError("Invalid token type")
         self.token_type = token_type
         self.value = value
-        self.operator_precedence = operator_precedence[value] if token_type == "OPERATOR" and value in operator_precedence else None
+        self.operator_precedence = (
+            OPERATOR_PRECEDENCE[value]
+            if token_type == "OPERATOR" and value in OPERATOR_PRECEDENCE
+            else None
+        )
 
     def __repr__(self) -> str:
         return f"Token({self.token_type}, {self.value})"
@@ -19,6 +23,7 @@ def tokenize(expr: str) -> list[Token]:
     i = 0
     while i < len(expr):
         c = expr[i]
+        # Handle numbers
         if c.isdigit() or c == '.':
             start = i
             i += 1
@@ -27,7 +32,9 @@ def tokenize(expr: str) -> list[Token]:
             number_val = float(expr[start:i])
             tokens.append(Token("NUMBER", number_val))
             continue
-        elif c in ['+', '-']:
+        # Handle operators (+, -, *, /) including unary +/-
+        elif c in '+-':
+            # unary plus/minus if at start or after another operator
             if not tokens or tokens[-1].token_type == "OPERATOR":
                 sign = 1 if c == '+' else -1
                 i += 1
@@ -45,10 +52,10 @@ def tokenize(expr: str) -> list[Token]:
                 tokens.append(Token("OPERATOR", c))
                 i += 1
                 continue
-        elif c in '*/^%$&@~!':
+        elif c in '*/':
             tokens.append(Token("OPERATOR", c))
             i += 1
             continue
         else:
-            raise ValueError("Invalid character")
+            raise ValueError(f"Invalid character '{c}' in expression")
     return tokens

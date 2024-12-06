@@ -8,6 +8,7 @@ def convert_to_postfix(tokens: list[Token]) -> list[Token]:
         if t.token_type == "NUMBER":
             output.append(t)
         else:
+            # Operator
             while stack and stack[-1].operator_precedence >= t.operator_precedence:
                 output.append(stack.pop())
             stack.append(t)
@@ -28,5 +29,5 @@ def postfix_calculator(tokens: list[Token]) -> float:
             res = evaluate_expression(a, b, t.value)
             stack.append(Token("NUMBER", res))
     if len(stack) != 1:
-        raise ValueError("Invalid postfix")
+        raise ValueError("Invalid postfix expression")
     return stack[0].value

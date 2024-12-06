@@ -4,9 +4,9 @@ def simplify_signs(expr: str) -> str:
     i = 0
     while i < len(expr):
         c = expr[i]
-        if c in ['+', '-']:
+        if c in '+-':
             start = i
-            while i < len(expr) and expr[i] in ['+', '-']:
+            while i < len(expr) and expr[i] in '+-':
                 i += 1
             seq = expr[start:i]
             minus_count = seq.count('-')
