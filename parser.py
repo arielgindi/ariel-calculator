@@ -1,5 +1,5 @@
 from tokens import Token
-from operations import evaluate_expression
+from operations import OPERATORS
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     output = []
@@ -8,14 +8,16 @@ def convert_to_postfix(tokens: list[Token]) -> list[Token]:
         if t.token_type == "NUMBER":
             output.append(t)
         elif t.token_type == "OPERATOR":
-            # Operator
-            while stack and stack[-1].token_type == "OPERATOR" and stack[-1].operator_precedence >= t.operator_precedence:
-                output.append(stack.pop())
+            while stack and stack[-1].token_type == "OPERATOR":
+                if stack[-1].operator_precedence >= t.operator_precedence:
+                    output.append(stack.pop())
+                else:
+                    break
             stack.append(t)
         elif t.token_type == "LPAREN":
             stack.append(t)
         elif t.token_type == "RPAREN":
-            while stack and stack [-1].token_type != "LPAREN":
+            while stack and stack[-1].token_type != "LPAREN":
                 output.append(stack.pop())
             if not stack:
                 raise ValueError("Mismatched parentheses")
@@ -32,14 +34,25 @@ def postfix_calculator(tokens: list[Token]) -> float:
     stack = []
     for t in tokens:
         if t.token_type == "NUMBER":
-            stack.append(t)
-        else:
-            if len(stack) < 2:
-                raise ValueError("Not enough values")
-            b = stack.pop().value
-            a = stack.pop().value
-            res = evaluate_expression(a, b, t.value)
-            stack.append(Token("NUMBER", res))
+            stack.append(t.value)
+        elif t.token_type == "OPERATOR":
+            op_info = OPERATORS[t.value]
+            if op_info['unary']:
+                # Unary operator: only one operand
+                if len(stack) < 1:
+                    raise ValueError("Not enough values for unary operator")
+                a = stack.pop()
+                res = op_info['function'](a)
+                stack.append(res)
+            else:
+                # Binary operator: two operands
+                if len(stack) < 2:
+                    raise ValueError("Not enough values for binary operator")
+                b = stack.pop()
+                a = stack.pop()
+                res = op_info['function'](a, b)
+                stack.append(res)
+
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression")
-    return stack[0].value
+    return stack[0]
