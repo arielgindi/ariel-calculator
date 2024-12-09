@@ -32,10 +32,10 @@ def tokenize(expr: str) -> list[Token]:
             number_val = float(expr[start:i])
             tokens.append(Token("NUMBER", number_val))
             continue
-        # Handle operators (+, -, *, /) including unary +/-
+
         elif c in '+-':
             # unary plus/minus if at start or after another operator
-            if not tokens or tokens[-1].token_type == "OPERATOR":
+            if not tokens or tokens[-1].token_type in ("OPERATOR", "LPAREN"):
                 sign = 1 if c == '+' else -1
                 i += 1
                 if i < len(expr) and (expr[i].isdigit() or expr[i] == '.'):
