@@ -1,7 +1,7 @@
 from operations import OPERATOR_PRECEDENCE
 
 class Token:
-    VALID_TYPES = {"NUMBER", "OPERATOR"}
+    VALID_TYPES = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN" }
 
     def __init__(self, token_type: str, value: float | str = None):
         if token_type not in self.VALID_TYPES:
@@ -54,6 +54,14 @@ def tokenize(expr: str) -> list[Token]:
                 continue
         elif c in '*/':
             tokens.append(Token("OPERATOR", c))
+            i += 1
+            continue
+        elif c == '(':
+            tokens.append(Token("LPAREN", '('))
+            i += 1
+            continue
+        elif c == ')':
+            tokens.append(Token("RPAREN", ')'))
             i += 1
             continue
         else:

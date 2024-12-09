@@ -7,13 +7,25 @@ def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     for t in tokens:
         if t.token_type == "NUMBER":
             output.append(t)
-        else:
+        elif t.token_type == "OPERATOR":
             # Operator
-            while stack and stack[-1].operator_precedence >= t.operator_precedence:
+            while stack and stack[-1].token_type == "OPERATOR" and stack[-1].operator_precedence >= t.operator_precedence:
                 output.append(stack.pop())
             stack.append(t)
+        elif t.token_type == "LPAREN":
+            stack.append(t)
+        elif t.token_type == "RPAREN":
+            while stack and stack [-1].token_type != "LPAREN":
+                output.append(stack.pop())
+            if not stack:
+                raise ValueError("Mismatched parentheses")
+            stack.pop()
     while stack:
-        output.append(stack.pop())
+        top = stack.pop()
+        if top.token_type in ("LPAREN", "RPAREN"):
+            raise ValueError("Mismatched parentheses")
+        output.append(top)
+
     return output
 
 def postfix_calculator(tokens: list[Token]) -> float:
