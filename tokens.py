@@ -1,17 +1,15 @@
-from typing import List, Union
 from operations import OPERATORS
 
-
 class Token:
-    VALID_TYPES = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
+    VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
 
-    def __init__(self, token_type: str, value: Union[float, str]):
+    def __init__(self, token_type: str, value: float | str) -> None:
         if token_type not in self.VALID_TYPES:
             raise ValueError(f"Invalid token type: {token_type}")
 
-        self.token_type = token_type
-        self.value = value
-        self.operator_precedence = (
+        self.token_type: str = token_type
+        self.value: float | str = value
+        self.operator_precedence: float | None = (
             OPERATORS[value]['precedence']
             if token_type == "OPERATOR" and value in OPERATORS
             else None
@@ -20,22 +18,20 @@ class Token:
     def __repr__(self) -> str:
         return f"Token({self.token_type}, {self.value})"
 
-
-def tokenize(expression: str) -> List[Token]:
+def tokenize(expression: str) -> list[Token]:
     """
-    Convert a mathematical expression into a list of tokens.
-    Numbers, operators, parentheses, and unary signs are handled.
+    Convert the expression into tokens (numbers, operators, parentheses).
+    Ensures '~' is only followed by a number or '(' where appropriate.
     """
-    expr = expression.replace(" ", "")
-    tokens: List[Token] = []
-    length = len(expr)
-    index = 0
+    expr: str = expression.replace(" ", "")
+    tokens: list[Token] = []
+    length: int = len(expr)
+    index: int = 0
 
     def is_number_char(ch: str) -> bool:
         return ch.isdigit() or ch == '.'
 
     def is_unary_context() -> bool:
-        # Unary context if at start or after an operator or '('
         return (not tokens) or (tokens[-1].token_type in ("OPERATOR", "LPAREN"))
 
     all_operator_symbols = set(OPERATORS.keys())
@@ -43,58 +39,55 @@ def tokenize(expression: str) -> List[Token]:
     while index < length:
         char = expr[index]
 
-        # Handle numbers (possibly floating point)
         if is_number_char(char):
-            start = index
+            start: int = index
             index += 1
             while index < length and is_number_char(expr[index]):
                 index += 1
-            number_str = expr[start:index]
-            tokens.append(Token("NUMBER", float(number_str)))
+            tokens.append(Token("NUMBER", float(expr[start:index])))
             continue
 
-        # Handle operators (including unary + and -)
         elif char in all_operator_symbols:
+            # Handle unary '+' and '-'
             if char in ['+', '-']:
-                # '+' or '-' might be unary if in a unary context
                 if is_unary_context():
                     sign = char
                     index += 1
                     if index >= length:
-                        raise ValueError("Expression ends with a unary operator.")
-
+                        raise ValueError("Expression ends with unary operator.")
                     next_char = expr[index]
                     if is_number_char(next_char):
-                        # Unary minus: insert 0 then '-'
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0.0))
                             tokens.append(Token("OPERATOR", '-'))
-                        # Unary plus: just skip it
                         start = index
                         index += 1
                         while index < length and is_number_char(expr[index]):
                             index += 1
-                        number_str = expr[start:index]
-                        tokens.append(Token("NUMBER", float(number_str)))
+                        tokens.append(Token("NUMBER", float(expr[start:index])))
                         continue
                     elif next_char == '(':
-                        # for example: "-(3+2)" means 0 - (3+2)
-                        # it convert "-num" ->  "0-num"
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0.0))
                             tokens.append(Token("OPERATOR", '-'))
-                        # Unary plus before '(' does nothing special
-                        # Don't consume '(' here; next iteration will handle it
                         continue
                     else:
                         raise ValueError("Invalid character after unary sign.")
                 else:
-                    # Binary '+' or '-'
                     tokens.append(Token("OPERATOR", char))
                     index += 1
                     continue
             else:
-                # Other operators like *, /, ^, %, $, &, @, ~, !
+                # '~' requires a number or '(' next
+                if char == '~':
+                    if index + 1 >= length:
+                        raise ValueError("Expression ends with '~'.")
+                    next_char = expr[index + 1]
+                    if not (is_number_char(next_char) or next_char == '('):
+                        raise ValueError("Invalid usage of '~'")
+                    tokens.append(Token("OPERATOR", '~'))
+                    index += 1
+                    continue
                 tokens.append(Token("OPERATOR", char))
                 index += 1
                 continue
@@ -103,14 +96,11 @@ def tokenize(expression: str) -> List[Token]:
             tokens.append(Token("LPAREN", '('))
             index += 1
             continue
-
         elif char == ')':
             tokens.append(Token("RPAREN", ')'))
             index += 1
             continue
-
         else:
-            # Unrecognized character
             raise ValueError(f"Invalid character '{char}' in expression.")
 
     return tokens
