@@ -1,6 +1,6 @@
 def simplify_signs(expr: str) -> str:
     # Merge consecutive '+'/'-' signs into a single '+' or '-'.
-    expr = expr.replace(" ", "")
+
     result: str = ""
     i: int = 0
     while i < len(expr):
