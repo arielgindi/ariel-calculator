@@ -1,5 +1,6 @@
 from calculator.tokens import Token
 from calculator.operations import OPERATORS
+from calculator.utils import parse_number
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     output: list[Token] = []
@@ -33,22 +34,20 @@ def convert_to_postfix(tokens: list[Token]) -> list[Token]:
 
     return output
 
-def postfix_calculator(tokens: list[Token]) -> float:
-    stack: list[float] = []
+def postfix_calculator(tokens: list[Token]) -> float | int:
+    stack: list[float | int] = []
     for t in tokens:
         if t.token_type == "NUMBER":
-            stack.append(t.value)  # value is float in this case
+            stack.append(t.value)
         elif t.token_type == "OPERATOR":
             op_info = OPERATORS[t.value]
             if op_info['unary']:
-                # Unary operator needs one operand.
                 if len(stack) < 1:
                     raise ValueError("Not enough values for unary operator")
                 a = stack.pop()
                 res = op_info['function'](a)
                 stack.append(res)
             else:
-                # Binary operator needs two operands.
                 if len(stack) < 2:
                     raise ValueError("Not enough values for binary operator")
                 b = stack.pop()
@@ -58,4 +57,4 @@ def postfix_calculator(tokens: list[Token]) -> float:
 
     if len(stack) != 1:
         raise ValueError("Invalid postfix expression")
-    return stack[0]
+    return parse_number(stack[0])

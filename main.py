@@ -1,3 +1,4 @@
+# main.py
 from calculator.expression_evaluator import calculate_expression
 
 RED = "\033[31m"
@@ -19,7 +20,6 @@ def main():
         try:
             user_input = input(CYAN + "Enter expression: " + RESET).strip()
         except (EOFError, KeyboardInterrupt):
-            # If user presses Ctrl+D or Ctrl+C, just exit gracefully
             print("\nGoodbye!")
             break
 
@@ -27,7 +27,6 @@ def main():
             print("Goodbye!")
             break
         elif not user_input:
-            # Just skip empty input
             continue
 
         try:

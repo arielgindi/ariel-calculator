@@ -3,12 +3,12 @@ from calculator.operations import OPERATORS
 class Token:
     VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
 
-    def __init__(self, token_type: str, value: float | str) -> None:
+    def __init__(self, token_type: str, value: int | float | str) -> None:
         if token_type not in self.VALID_TYPES:
             raise ValueError(f"Invalid token type: {token_type}")
 
         self.token_type: str = token_type
-        self.value: float | str = value
+        self.value: int | float | str = value
         self.operator_precedence: float | None = (
             OPERATORS[value]['precedence']
             if token_type == "OPERATOR" and value in OPERATORS
@@ -19,10 +19,6 @@ class Token:
         return f"Token({self.token_type}, {self.value})"
 
 def tokenize(expression: str) -> list[Token]:
-    """
-    Convert the expression into tokens (numbers, operators, parentheses).
-    Ensures '~' is only followed by a number or '(' where appropriate.
-    """
     expr: str = expression.replace(" ", "")
     tokens: list[Token] = []
     length: int = len(expr)
@@ -44,11 +40,14 @@ def tokenize(expression: str) -> list[Token]:
             index += 1
             while index < length and is_number_char(expr[index]):
                 index += 1
-            tokens.append(Token("NUMBER", float(expr[start:index])))
+            number_str = expr[start:index]
+            if '.' in number_str:
+                tokens.append(Token("NUMBER", float(number_str)))
+            else:
+                tokens.append(Token("NUMBER", int(number_str)))
             continue
 
         elif char in all_operator_symbols:
-            # Handle unary '+' and '-'
             if char in ['+', '-']:
                 if is_unary_context():
                     sign = char
@@ -58,17 +57,21 @@ def tokenize(expression: str) -> list[Token]:
                     next_char = expr[index]
                     if is_number_char(next_char):
                         if sign == '-':
-                            tokens.append(Token("NUMBER", 0.0))
+                            tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
                         start = index
                         index += 1
                         while index < length and is_number_char(expr[index]):
                             index += 1
-                        tokens.append(Token("NUMBER", float(expr[start:index])))
+                        number_str = expr[start:index]
+                        if '.' in number_str:
+                            tokens.append(Token("NUMBER", float(number_str)))
+                        else:
+                            tokens.append(Token("NUMBER", int(number_str)))
                         continue
                     elif next_char == '(':
                         if sign == '-':
-                            tokens.append(Token("NUMBER", 0.0))
+                            tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
                         continue
                     else:
@@ -78,7 +81,6 @@ def tokenize(expression: str) -> list[Token]:
                     index += 1
                     continue
             else:
-                # '~' requires a number or '(' next
                 if char == '~':
                     if index + 1 >= length:
                         raise ValueError("Expression ends with '~'.")

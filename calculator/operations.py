@@ -1,14 +1,16 @@
-def safe_divide(x: float, y: float) -> float:
+from calculator.utils import parse_number
+
+def safe_divide(x: float | int, y: float | int) -> float | int:
     if y == 0:
         raise ZeroDivisionError("Division by zero")
     return x / y
 
-def safe_modulo(x: float, y: float) -> float:
+def safe_modulo(x: float | int, y: float | int) -> float | int:
     if y == 0:
         raise ZeroDivisionError("Modulo by zero")
     return x % y
 
-def factorial(n: float) -> float:
+def factorial(n: float | int) -> float | int:
     # Factorial requires non-negative integers.
     if n < 0 or n != int(n):
         raise ValueError("Factorial is not defined for negative or non-integer values")
@@ -16,7 +18,7 @@ def factorial(n: float) -> float:
     res: int = 1
     for i in range(1, n_int + 1):
         res *= i
-    return float(res)
+    return res
 
 OPERATORS: dict[str, dict[str, object]] = {
     '+': {'precedence': 1, 'function': lambda x, y: x + y, 'unary': False},
