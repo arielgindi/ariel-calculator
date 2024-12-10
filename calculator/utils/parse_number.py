@@ -7,5 +7,9 @@ def parse_number(value: int | float | str) -> int | float:
             return int(value)
         return value
 
-    # since it's a string, convert it to float and return the minimal version of it
-    return parse_number(float(value))
+    try:
+        num = float(value)
+    except ValueError:
+        raise ValueError(f"Cannot convert '{value}' to a number.")
+
+    return parse_number(num)

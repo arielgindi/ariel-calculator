@@ -1,4 +1,6 @@
 from calculator.operations import OPERATORS
+from calculator.utils.parse_number import parse_number
+
 
 class Token:
     VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
@@ -41,11 +43,10 @@ def tokenize(expression: str) -> list[Token]:
             while index < length and is_number_char(expr[index]):
                 index += 1
             number_str = expr[start:index]
-            if '.' in number_str:
-                tokens.append(Token("NUMBER", float(number_str)))
-            else:
-                tokens.append(Token("NUMBER", int(number_str)))
+            number = parse_number(number_str)  # Use parse_number directly
+            tokens.append(Token("NUMBER", number))
             continue
+
 
         elif char in all_operator_symbols:
             if char in ['+', '-']:

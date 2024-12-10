@@ -10,4 +10,8 @@ def remove_spaces(expr: str) -> str:
         if expr[i].isdigit() and expr[i + 1] == ' ' and expr[i + 2].isdigit():
             raise ValueError("Invalid spacing: numbers cannot be separated by a space")
 
-    return expr.replace(' ', '')
+    cleaned_expr = expr.replace(' ', '')
+    if not cleaned_expr:
+        raise ValueError("Expression is empty after removing spaces.")
+
+    return cleaned_expr
