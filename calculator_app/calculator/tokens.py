@@ -1,4 +1,4 @@
-from operations import OPERATORS
+from calculator.operations import OPERATORS
 
 class Token:
     VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}

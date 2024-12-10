@@ -1,4 +1,4 @@
-from calculator import calculator
+from calculator.expression_evaluator import calculate_expression
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -31,7 +31,7 @@ def main():
             continue
 
         try:
-            result = calculator(user_input)
+            result = calculate_expression(user_input)
             print(GREEN + f"Result: {result}" + RESET)
         except Exception as e:
             print(RED + f"Error: {e}" + RESET)

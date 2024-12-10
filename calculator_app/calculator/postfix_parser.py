@@ -1,5 +1,5 @@
-from tokens import Token
-from operations import OPERATORS
+from calculator.tokens import Token
+from calculator.operations import OPERATORS
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     output: list[Token] = []
