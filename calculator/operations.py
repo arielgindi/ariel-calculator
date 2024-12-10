@@ -1,5 +1,3 @@
-from calculator.utils import parse_number
-
 def safe_divide(x: float | int, y: float | int) -> float | int:
     if y == 0:
         raise ZeroDivisionError("Division by zero")

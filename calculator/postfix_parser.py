@@ -1,6 +1,6 @@
 from calculator.tokens import Token
 from calculator.operations import OPERATORS
-from calculator.utils import parse_number
+from calculator.utils.parse_number import parse_number
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     output: list[Token] = []
