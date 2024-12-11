@@ -30,7 +30,10 @@ def tokenize(expression: str) -> list[Token]:
         return ch.isdigit() or ch == '.'
 
     def is_unary_context() -> bool:
-        return (not tokens) or (tokens[-1].token_type in ("OPERATOR", "LPAREN"))
+        return (not tokens) or (
+                tokens[-1].token_type in ("OPERATOR", "LPAREN")
+                and tokens[-1].value != '!'
+        )
 
     all_operator_symbols = set(OPERATORS.keys())
 
