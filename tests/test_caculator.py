@@ -34,3 +34,13 @@ def test_complex_power():
 
 def test_complicated_precedence_no_parentheses():
     assert calculate_expression("3+5*2^2-4/2") == 21
+
+
+def test_factorial_followed_by_subtraction():
+    assert calculate_expression("9! - 8") == 362872
+
+def test_factorial_subtraction_between_factorials():
+    assert calculate_expression("9! - 8!") == 322560
+
+def test_factorial_followed_by_double_minus_number():
+    assert calculate_expression("9! - -8") == 362888
