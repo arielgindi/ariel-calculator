@@ -6,7 +6,8 @@ from calculator.utils.simplify_signs import simplify_signs
 
 def calculate_expression(expression: str) -> float | int:
     if not expression:
-        return 0
+        raise ValueError("Expression cannot be empty.")
+
 
     no_space_expr = remove_spaces(expression)
     simplified_expr: str = simplify_signs(no_space_expr)
