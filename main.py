@@ -1,4 +1,5 @@
 import pytest
+import time
 from calculator.expression_evaluator import calculate_expression
 
 RED = "\033[31m"
@@ -8,7 +9,7 @@ BOLD = "\033[1m"
 RESET = "\033[0m"
 
 class TestCounter:
-    def _init_(self):
+    def __init__(self):
         self.total = 0
         self.passed = 0
 
@@ -19,7 +20,6 @@ class TestCounter:
                 self.passed += 1
 
 def main():
-    # Welcome banner
     print(CYAN + "=====================================" + RESET)
     print(CYAN + BOLD + "          Gindi Calculator" + RESET)
     print(CYAN + "=====================================" + RESET)
@@ -49,11 +49,15 @@ def main():
                 print(RED + "No tests found." + RESET)
             continue
 
-        # Evaluate the expression
+        start_time = time.perf_counter()
         try:
             result = calculate_expression(user_input)
-            print(GREEN + f"Result: {result}" + RESET)
+            elapsed_s = time.perf_counter() - start_time
+            # One-liner, clean UI: Result and timing in one line, similar to how some CLI tools do it
+            print(f"{GREEN}Result: {result}{RESET} ({elapsed_s:.3f}s)")
         except Exception as e:
-            print(RED + f"Error: {e}" + RESET)
+            elapsed_s = time.perf_counter() - start_time
+            print(RED + f"Error: {e}" + RESET + f" ({elapsed_s:.3f}s)")
 
-main()
+if __name__ == "__main__":
+    main()
