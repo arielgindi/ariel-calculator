@@ -75,3 +75,12 @@ def test_simple_factorial():
 
 def test_factorial_after_negative():
     assert calculate_expression("-10!") == -3628800
+
+# New tests for the given expressions:
+def test_tilde_minus_combination_1():
+    # ~4-~-10^2 should result in -104
+    assert calculate_expression("~4-~-10^2") == -104
+
+def test_tilde_minus_combination_2():
+    # ~4--~10^2 should result in 96
+    assert calculate_expression("~4--~10^2") == 96
