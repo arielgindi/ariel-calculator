@@ -35,7 +35,6 @@ def test_complex_power():
 def test_complicated_precedence_no_parentheses():
     assert calculate_expression("3+5*2^2-4/2") == 21
 
-
 def test_factorial_followed_by_subtraction():
     assert calculate_expression("9! - 8") == 362872
 
@@ -44,3 +43,35 @@ def test_factorial_subtraction_between_factorials():
 
 def test_factorial_followed_by_double_minus_number():
     assert calculate_expression("9! - -8") == 362888
+
+def test_sign_simplification_complex():
+    assert calculate_expression("---+++-++-10") == -10
+
+def test_tilde_on_factorial_in_parentheses():
+    assert calculate_expression("~(10!)") == -3628800
+
+def test_tilde_on_factorial_invalid():
+    with pytest.raises(ValueError):
+        calculate_expression("~10!")
+
+def test_nested_tilde_with_parentheses():
+    assert calculate_expression("-(~(+10))") == 10
+
+def test_signs_with_tilde():
+    assert calculate_expression("-+~+10") == 10
+
+def test_double_tilde_no_parentheses():
+    with pytest.raises(ValueError):
+        calculate_expression("~~3")
+
+def test_double_tilde_with_parentheses():
+    assert calculate_expression("~(~3)") == 3
+
+def test_plus_tilde_minus():
+    assert calculate_expression("3+~-3") == 6
+
+def test_simple_factorial():
+    assert calculate_expression("3!") == 6
+
+def test_factorial_after_negative():
+    assert calculate_expression("-10!") == -3628800
