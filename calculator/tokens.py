@@ -20,6 +20,7 @@ class Token:
     def __repr__(self) -> str:
         return f"Token({self.token_type}, {self.value})"
 
+
 def tokenize(expression: str) -> list[Token]:
     expr: str = expression.replace(" ", "")
     tokens: list[Token] = []
@@ -50,7 +51,6 @@ def tokenize(expression: str) -> list[Token]:
             tokens.append(Token("NUMBER", number))
             continue
 
-
         elif char in all_operator_symbols:
             if char in ['+', '-']:
                 if is_unary_context():
@@ -59,6 +59,7 @@ def tokenize(expression: str) -> list[Token]:
                     if index >= length:
                         raise ValueError("Expression ends with unary operator.")
                     next_char = expr[index]
+
                     if is_number_char(next_char):
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
@@ -77,6 +78,17 @@ def tokenize(expression: str) -> list[Token]:
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
+                        # No number immediately after sign but '(' is allowed.
+                        # The parsing will continue in next iterations.
+                        continue
+                    elif next_char == '~':
+                        # Handle cases like -~10 or +~10
+                        if sign == '-':
+                            tokens.append(Token("NUMBER", 0))
+                            tokens.append(Token("OPERATOR", '-'))
+                        tokens.append(Token("OPERATOR", '~'))
+                        index += 1
+                        # After '~', further handling is done in next iterations
                         continue
                     else:
                         raise ValueError("Invalid character after unary sign.")
