@@ -87,13 +87,36 @@ def test_tilde_minus_combination_2():
 def test_parentheses_tilde_minus_combination():
     assert calculate_expression("(5 + 8 ) - - ~9") == 4
 
-
 def test_tilde_on_factorial_with_average():
     # 9! = 362,880
     # ~(9!) = -362,880
     # (-362,880 @ 3) = ( -362,880 + 3 ) / 2 = (-362,877) / 2 = -181,438.5
     assert calculate_expression("~(9!)@3") == -181438.5
 
-
 def test_complex_precedence_mix():
     assert calculate_expression("3! - ~-10^2 @5*2 + ~4 &9") == -6322.555320336759
+
+
+# New '#' Operator Tests
+
+def test_digit_sum_simple():
+    # 123# => 1+2+3=6
+    assert calculate_expression("123#") == 6
+
+def test_digit_sum_double():
+    # 99# => 9+9=18
+    # 18# => 1+8=9
+    assert calculate_expression("99##") == 9
+
+def test_digit_sum_decimal():
+    # 2.3# => 2+3=5
+    assert calculate_expression("2.3#") == 5
+
+def test_digit_sum_negative():
+    # -123# => -(1+2+3) = -6
+    assert calculate_expression("-123#") == -6
+
+def test_digit_sum_complex_expression():
+    # (999+1) = 1000
+    # 1000# => 1+0+0+0=1
+    assert calculate_expression("(999+1)#") == 1
