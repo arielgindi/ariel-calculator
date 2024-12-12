@@ -83,3 +83,17 @@ def test_tilde_minus_combination_1():
 def test_tilde_minus_combination_2():
     # ~4--~10^2 should result in 96
     assert calculate_expression("~4--~10^2") == 96
+
+def test_parentheses_tilde_minus_combination():
+    assert calculate_expression("(5 + 8 ) - - ~9") == 4
+
+
+def test_tilde_on_factorial_with_average():
+    # 9! = 362,880
+    # ~(9!) = -362,880
+    # (-362,880 @ 3) = ( -362,880 + 3 ) / 2 = (-362,877) / 2 = -181,438.5
+    assert calculate_expression("~(9!)@3") == -181438.5
+
+
+def test_complex_precedence_mix():
+    assert calculate_expression("3! - ~-10^2 @5*2 + ~4 &9") == -103
