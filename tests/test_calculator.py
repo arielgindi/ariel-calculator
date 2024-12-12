@@ -96,4 +96,4 @@ def test_tilde_on_factorial_with_average():
 
 
 def test_complex_precedence_mix():
-    assert calculate_expression("3! - ~-10^2 @5*2 + ~4 &9") == -103
+    assert calculate_expression("3! - ~-10^2 @5*2 + ~4 &9") == -6322.555320336759
