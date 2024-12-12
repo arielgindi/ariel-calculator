@@ -1,7 +1,6 @@
 from calculator.operations import OPERATORS
 from calculator.utils.parse_number import parse_number
 
-
 class Token:
     VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
 
@@ -30,7 +29,10 @@ def tokenize(expression: str) -> list[Token]:
         return ch.isdigit() or ch == '.'
 
     def is_unary_context() -> bool:
-        return (not tokens) or (tokens[-1].token_type in ("OPERATOR", "LPAREN"))
+        return (not tokens) or (
+                tokens[-1].token_type in ("OPERATOR", "LPAREN")
+                and tokens[-1].value != '!'
+        )
 
     all_operator_symbols = set(OPERATORS.keys())
 
@@ -43,10 +45,9 @@ def tokenize(expression: str) -> list[Token]:
             while index < length and is_number_char(expr[index]):
                 index += 1
             number_str = expr[start:index]
-            number = parse_number(number_str)  # Use parse_number directly
+            number = parse_number(number_str)
             tokens.append(Token("NUMBER", number))
             continue
-
 
         elif char in all_operator_symbols:
             if char in ['+', '-']:
@@ -56,6 +57,7 @@ def tokenize(expression: str) -> list[Token]:
                     if index >= length:
                         raise ValueError("Expression ends with unary operator.")
                     next_char = expr[index]
+
                     if is_number_char(next_char):
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
@@ -74,6 +76,13 @@ def tokenize(expression: str) -> list[Token]:
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
+                        continue
+                    elif next_char == '~':
+                        if sign == '-':
+                            tokens.append(Token("NUMBER", 0))
+                            tokens.append(Token("OPERATOR", '-'))
+                        tokens.append(Token("OPERATOR", '~'))
+                        index += 1
                         continue
                     else:
                         raise ValueError("Invalid character after unary sign.")
