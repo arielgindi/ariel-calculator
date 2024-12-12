@@ -1,7 +1,6 @@
 from calculator.operations import OPERATORS
 from calculator.utils.parse_number import parse_number
 
-
 class Token:
     VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
 
@@ -19,7 +18,6 @@ class Token:
 
     def __repr__(self) -> str:
         return f"Token({self.token_type}, {self.value})"
-
 
 def tokenize(expression: str) -> list[Token]:
     expr: str = expression.replace(" ", "")
@@ -47,7 +45,7 @@ def tokenize(expression: str) -> list[Token]:
             while index < length and is_number_char(expr[index]):
                 index += 1
             number_str = expr[start:index]
-            number = parse_number(number_str)  # Use parse_number directly
+            number = parse_number(number_str)
             tokens.append(Token("NUMBER", number))
             continue
 
@@ -78,17 +76,13 @@ def tokenize(expression: str) -> list[Token]:
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
-                        # No number immediately after sign but '(' is allowed.
-                        # The parsing will continue in next iterations.
                         continue
                     elif next_char == '~':
-                        # Handle cases like -~10 or +~10
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
                         tokens.append(Token("OPERATOR", '~'))
                         index += 1
-                        # After '~', further handling is done in next iterations
                         continue
                     else:
                         raise ValueError("Invalid character after unary sign.")

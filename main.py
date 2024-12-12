@@ -1,6 +1,6 @@
 import pytest
 import time
-from calculator.expression_evaluator import calculate_expression
+from calculator.expression_calculator import calculate_expression
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -53,7 +53,6 @@ def main():
         try:
             result = calculate_expression(user_input)
             elapsed_s = time.perf_counter() - start_time
-            # One-liner, clean UI: Result and timing in one line, similar to how some CLI tools do it
             print(f"{GREEN}Result: {result}{RESET} ({elapsed_s:.3f}s)")
         except Exception as e:
             elapsed_s = time.perf_counter() - start_time

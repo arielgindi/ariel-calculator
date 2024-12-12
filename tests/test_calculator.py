@@ -1,5 +1,5 @@
 import pytest
-from calculator.expression_evaluator import calculate_expression
+from calculator.expression_calculator import calculate_expression
 
 def test_empty_expression():
     with pytest.raises(ValueError):
@@ -76,7 +76,6 @@ def test_simple_factorial():
 def test_factorial_after_negative():
     assert calculate_expression("-10!") == -3628800
 
-# New tests for the given expressions:
 def test_tilde_minus_combination_1():
     # ~4-~-10^2 should result in -104
     assert calculate_expression("~4-~-10^2") == -104
