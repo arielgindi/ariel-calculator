@@ -14,9 +14,18 @@ def convert_to_postfix(tokens: list[Token]) -> list[Token]:
             if t.value not in OPERATORS:
                 raise ValueError(f"Unknown operator '{t.value}'.")
             while stack and stack[-1].token_type == "OPERATOR":
-                if (stack[-1].operator_precedence is not None and
-                    t.operator_precedence is not None and
-                    stack[-1].operator_precedence >= t.operator_precedence):
+                top_op = stack[-1].value
+                top_precedence = OPERATORS[top_op]['precedence']
+                current_precedence = OPERATORS[t.value]['precedence']
+                current_assoc = OPERATORS[t.value]['associativity']
+
+                should_pop = False
+                if current_assoc == 'left' and top_precedence >= current_precedence:
+                    should_pop = True
+                elif current_assoc == 'right' and top_precedence > current_precedence:
+                    should_pop = True
+
+                if should_pop:
                     output.append(stack.pop())
                 else:
                     break
