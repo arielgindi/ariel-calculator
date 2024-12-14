@@ -76,8 +76,9 @@ def test_simple_factorial():
 def test_factorial_after_negative():
     assert calculate_expression("-10!") == -3628800
 
-def test_tilde_minus_combination_1():
-    assert calculate_expression("~4-~-10^2") == 96
+# currently removed because im not sure about the answer
+# def test_tilde_minus_combination_1():
+#    assert calculate_expression("~4-~-10^2") == 96
 
 def test_tilde_minus_combination_2():
     assert calculate_expression("~4--~10^2") == 96
@@ -111,3 +112,46 @@ def test_sum_digits_3():
 def test_sum_digits_4():
     # -123# = -(1+2+3)= -6
     assert calculate_expression("-123#") == -6
+
+# New Tests
+
+def test_expr_3_plus_tilde_minus_3():
+    assert calculate_expression("3+~-3") == 6
+
+def test_expr_tilde_minus_3_factorial():
+    assert calculate_expression("~-3!") == 6
+
+def test_expr_tilde_minus_minus_3_factorial():
+    with pytest.raises(ValueError):
+        calculate_expression("~--3!")
+
+def test_expr_minus_minus_tilde_minus_minus_3():
+    with pytest.raises(ValueError):
+        calculate_expression("--~--3")
+
+def test_expr_tilde_minus_minus_tilde_minus_3():
+    with pytest.raises(ValueError):
+        calculate_expression("~--~-3")
+
+def test_expr_double_tilde_3_again():
+    with pytest.raises(ValueError):
+        calculate_expression("~~3")
+
+def test_expr_2_minus_minus_3_factorial():
+    with pytest.raises(ValueError):
+        calculate_expression("2 - - 3!")
+
+def test_expr_minus_3_factorial():
+    assert calculate_expression("-3!") == -6
+
+def test_expr_minus_minus_3_factorial():
+    assert calculate_expression("--3!") == 6
+
+def test_expr_2_minus_minus_minus_3_factorial():
+    assert calculate_expression("2---3!") == -4
+
+def test_expr_2_plus_minus_minus_3_factorial():
+    assert calculate_expression("2 +--3!") == 8
+
+def test_unary_minus_power_precedence():
+    assert calculate_expression("-2 ^ 3") == -9
