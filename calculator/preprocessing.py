@@ -34,24 +34,25 @@ def normalize_expression(expr: str) -> str:
                     i += 1
                     continue
             elif next_char in '+-':
+                print("next_char is ", next_char)
                 sign = next_char
                 i += 2
                 # After ~+ or ~-, we must have a digit immediately
-                if i >= length or not expr[i].isdigit():
-                    raise ValueError(f"Invalid usage of '~{sign}': no number follows.")
+                if i >= length or not expr[i].isdigit(): # or (
+                    raise ValueError(f"Invalid usage of '~{sign}': no number follows.") #  or (
                 start = i
                 while i < length and (expr[i].isdigit() or expr[i] == '.'):
                     i += 1
                 number_str = expr[start:i]
                 # If next char is '!', again invalid without parentheses
-                if i < length and expr[i] == '!':
+                if i < length and expr[i] == '!' and next_char != '-':
                     raise ValueError("Invalid usage of '~' before factorial without parentheses.")
                 if sign == '+':
                     # "~+3" -> "~3"
                     result += '~' + number_str
                 else:
-                    # "~-3" -> "~(-3)"
-                    result += '~(' + sign + number_str + ')'
+                    # "~-3" -> "3"
+                    result += number_str
                 continue
             elif next_char == '~':
                 raise ValueError("Multiple consecutive '~' operators without parentheses are not allowed.")
