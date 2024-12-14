@@ -2,7 +2,6 @@ from calculator.operations import OPERATORS
 from calculator.tokens import Token
 from calculator.utils.parse_number import parse_number
 
-
 def postfix_calculator(tokens: list[Token]) -> float | int:
     stack: list[float | int] = []
     for t in tokens:
@@ -16,6 +15,8 @@ def postfix_calculator(tokens: list[Token]) -> float | int:
                 a = stack.pop()
                 try:
                     res = op_info['function'](a)
+                    if isinstance(res, complex):
+                        raise ValueError("Complex results are not supported.")
                 except Exception as e:
                     raise ValueError(f"{e}, Error calculation unary operator '{t.value}' to {a}")
                 stack.append(res)
@@ -26,6 +27,8 @@ def postfix_calculator(tokens: list[Token]) -> float | int:
                 a = stack.pop()
                 try:
                     res = op_info['function'](a, b)
+                    if isinstance(res, complex):
+                        raise ValueError("Complex results are not supported.")
                 except Exception as e:
                     raise ValueError(f"{e}, Error calculation operator '{t.value}' to {a} and {b}")
                 stack.append(res)

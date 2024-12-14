@@ -30,8 +30,8 @@ def tokenize(expression: str) -> list[Token]:
 
     def is_unary_context() -> bool:
         return (not tokens) or (
-                tokens[-1].token_type in ("OPERATOR", "LPAREN")
-                and tokens[-1].value != '!'
+            tokens[-1].token_type in ("OPERATOR", "LPAREN")
+            and tokens[-1].value != '!'
         )
 
     all_operator_symbols = set(OPERATORS.keys())
@@ -76,6 +76,7 @@ def tokenize(expression: str) -> list[Token]:
                         if sign == '-':
                             tokens.append(Token("NUMBER", 0))
                             tokens.append(Token("OPERATOR", '-'))
+                        # Let parsing continue; '(' will be handled below
                         continue
                     elif next_char == '~':
                         if sign == '-':
