@@ -154,4 +154,4 @@ def test_expr_2_plus_minus_minus_3_factorial():
     assert calculate_expression("2 +--3!") == 8
 
 def test_unary_minus_power_precedence():
-    assert calculate_expression("-2 ^ 3") == -9
+    assert calculate_expression("-2 ^ 3") == -8
