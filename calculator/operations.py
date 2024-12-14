@@ -18,18 +18,27 @@ def factorial(n: float | int) -> float | int:
         res *= i
     return res
 
+def sum_digits(n: float | int) -> float | int:
+    # Convert the number to string, handle sign and decimal point
+    negative = (n < 0)
+    s = str(abs(n))
+    s = s.replace('.', '')
+    digit_sum = sum(int(d) for d in s if d.isdigit())
+    return -digit_sum if negative else digit_sum
+
 OPERATORS: dict[str, dict[str, object]] = {
-    '+': {'precedence': 1, 'function': lambda x, y: x + y, 'unary': False},
-    '-': {'precedence': 1, 'function': lambda x, y: x - y, 'unary': False},
-    '*': {'precedence': 2, 'function': lambda x, y: x * y, 'unary': False},
-    '/': {'precedence': 2, 'function': safe_divide, 'unary': False},
-    '^': {'precedence': 3, 'function': lambda x, y: pow(x, y), 'unary': False},
-    '%': {'precedence': 4, 'function': safe_modulo, 'unary': False},
-    '$': {'precedence': 5, 'function': lambda x, y: max(x, y), 'unary': False},
-    '&': {'precedence': 5, 'function': lambda x, y: min(x, y), 'unary': False},
-    '@': {'precedence': 5, 'function': lambda x, y: (x + y) / 2, 'unary': False},
-    '!': {'precedence': 6, 'function': lambda x: factorial(x), 'unary': True},
-    '~': {'precedence': 6, 'function': lambda x: -x, 'unary': True}
+    '+': {'precedence': 1, 'function': lambda x, y: x + y, 'unary': False, 'associativity': 'left'},
+    '-': {'precedence': 1, 'function': lambda x, y: x - y, 'unary': False, 'associativity': 'left'},
+    '*': {'precedence': 2, 'function': lambda x, y: x * y, 'unary': False, 'associativity': 'left'},
+    '/': {'precedence': 2, 'function': safe_divide, 'unary': False, 'associativity': 'left'},
+    '^': {'precedence': 3, 'function': lambda x, y: pow(x, y), 'unary': False, 'associativity': 'right'},
+    '%': {'precedence': 4, 'function': safe_modulo, 'unary': False, 'associativity': 'left'},
+    '$': {'precedence': 5, 'function': lambda x, y: max(x, y), 'unary': False, 'associativity': 'left'},
+    '&': {'precedence': 5, 'function': lambda x, y: min(x, y), 'unary': False, 'associativity': 'left'},
+    '@': {'precedence': 5, 'function': lambda x, y: (x + y) / 2, 'unary': False, 'associativity': 'left'},
+    '!': {'precedence': 6, 'function': lambda x: factorial(x), 'unary': True, 'associativity': 'right'},
+    '~': {'precedence': 6, 'function': lambda x: -x, 'unary': True, 'associativity': 'right'},
+    '#': {'precedence': 6, 'function': lambda x: sum_digits(x), 'unary': True, 'associativity': 'right'}
 }
 
 ALL_OPERATORS: str = ''.join(OPERATORS.keys())
