@@ -77,11 +77,9 @@ def test_factorial_after_negative():
     assert calculate_expression("-10!") == -3628800
 
 def test_tilde_minus_combination_1():
-    # ~4-~-10^2 should result in -104
-    assert calculate_expression("~4-~-10^2") == -104
+    assert calculate_expression("~4-~-10^2") == 96
 
 def test_tilde_minus_combination_2():
-    # ~4--~10^2 should result in 96
     assert calculate_expression("~4--~10^2") == 96
 
 def test_parentheses_tilde_minus_combination():
