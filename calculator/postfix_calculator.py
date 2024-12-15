@@ -1,5 +1,5 @@
 from calculator.operations import OPERATORS
-from calculator.tokens import Token
+from calculator.Token import Token
 from calculator.utils.parse_number import parse_number
 
 def postfix_calculator(tokens: list[Token]) -> float | int:

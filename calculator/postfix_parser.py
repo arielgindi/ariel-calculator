@@ -1,4 +1,4 @@
-from calculator.tokens import Token
+from calculator.Token import Token
 from calculator.operations import OPERATORS
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:

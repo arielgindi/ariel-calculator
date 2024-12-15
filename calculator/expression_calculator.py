@@ -1,4 +1,5 @@
-from calculator.tokens import tokenize, Token
+from calculator.tokenize import tokenize
+from calculator.Token import Token
 from calculator.postfix_parser import convert_to_postfix
 from calculator.postfix_calculator import postfix_calculator
 from calculator.final_preprocessing import final_preprocessing

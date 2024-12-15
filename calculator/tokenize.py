@@ -1,23 +1,7 @@
+from calculator.Token import Token
 from calculator.operations import OPERATORS
 from calculator.utils.parse_number import parse_number
 
-class Token:
-    VALID_TYPES: set[str] = {"NUMBER", "OPERATOR", "LPAREN", "RPAREN"}
-
-    def __init__(self, token_type: str, value: int | float | str) -> None:
-        if token_type not in self.VALID_TYPES:
-            raise ValueError(f"Invalid token type: {token_type}")
-
-        self.token_type: str = token_type
-        self.value: int | float | str = value
-        self.operator_precedence: float | None = (
-            OPERATORS[value]['precedence']
-            if token_type == "OPERATOR" and value in OPERATORS
-            else None
-        )
-
-    def __repr__(self) -> str:
-        return f"Token({self.token_type}, {self.value})"
 
 def tokenize(expression: str) -> list[Token]:
     """
