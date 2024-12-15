@@ -3,6 +3,11 @@ from calculator.tokens import Token
 from calculator.utils.parse_number import parse_number
 
 def postfix_calculator(tokens: list[Token]) -> float | int:
+    """
+    Evaluates a postfix expression using a stack to compute the result.
+    Example: [Token("NUMBER", 3), Token("NUMBER", 4), Token("OPERATOR", "+")] returns 7.
+    Raises ValueError for invalid operators or insufficient operands.
+    """
     stack: list[float | int] = []
     for t in tokens:
         if t.token_type == "NUMBER":

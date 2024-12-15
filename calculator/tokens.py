@@ -20,6 +20,12 @@ class Token:
         return f"Token({self.token_type}, {self.value})"
 
 def tokenize(expression: str) -> list[Token]:
+    """
+    Tokenizes an expression into a list of Tokens.
+    Example: "3 + 4" returns [Token("NUMBER", 3), Token("OPERATOR", "+"), Token("NUMBER", 4)].
+    Raises ValueError for invalid characters or improper unary operator usage.
+    """
+
     expr: str = expression.replace(" ", "")
     tokens: list[Token] = []
     length: int = len(expr)

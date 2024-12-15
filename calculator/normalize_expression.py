@@ -1,7 +1,10 @@
-from calculator.utils.remove_spaces import remove_spaces
-from calculator.utils.simplify_signs import simplify_signs
-
 def normalize_expression(expr: str) -> str:
+    """
+    Normalizes '~' usage to ensure valid expressions by validating placement
+    and converting '~+' or '~-3' into their normalized forms.
+    Example: "~+3" becomes "~3", "~-3" becomes "3"
+    Example: "~-3!" raises ValueError, "~5!" raises ValueError
+    """
     i = 0
     result = ""
     length = len(expr)
@@ -62,9 +65,3 @@ def normalize_expression(expr: str) -> str:
             result += c
             i += 1
     return result
-
-def final_preprocessing(expression: str) -> str:
-    no_space_expr = remove_spaces(expression)
-    simplified_expr = simplify_signs(no_space_expr)
-    normalized = normalize_expression(simplified_expr)
-    return normalized
