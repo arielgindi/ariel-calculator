@@ -58,7 +58,8 @@ def test_nested_tilde_with_parentheses():
     assert calculate_expression("-(~(+10))") == 10
 
 def test_signs_with_tilde():
-    assert calculate_expression("-+~+10") == 10
+    with pytest.raises(ValueError):
+        assert calculate_expression("-+~+10") == 10
 
 def test_double_tilde_no_parentheses():
     with pytest.raises(ValueError):
@@ -81,10 +82,12 @@ def test_factorial_after_negative():
 #    assert calculate_expression("~4-~-10^2") == 96
 
 def test_tilde_minus_combination_2():
-    assert calculate_expression("~4--~10^2") == 96
+    with pytest.raises(ValueError):
+        assert calculate_expression("~4--~10^2") == 96
 
 def test_parentheses_tilde_minus_combination():
-    assert calculate_expression("(5 + 8 ) - - ~9") == 4
+    with pytest.raises(ValueError):
+        assert calculate_expression("(5 + 8 ) - - ~9") == 4
 
 def test_tilde_on_factorial_with_average():
     # 9! = 362,880

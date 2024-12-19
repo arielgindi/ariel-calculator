@@ -32,7 +32,7 @@ def sum_digits(n: float | int) -> float | int:
 
 # Binary operators:                       '+'  and '-'
 # Unary operators following binary signs: 'b-' and 'b+'
-# Other unary operators:                  'u-' and 'u+'
+# Other/Normal unary operators:                  'u-' and 'u+'
 
 OPERATORS: dict[str, dict[str, object]] = {
     '+': {'precedence': 1, 'associativity': 'left', 'unary': False, 'function': lambda x, y: x + y},
@@ -48,7 +48,7 @@ OPERATORS: dict[str, dict[str, object]] = {
     '#': {'precedence': 6, 'associativity': 'right', 'unary': True, 'function': lambda x: sum_digits(x)},
     '~': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
 
-    # Other unary signs: 'u-' 'u+'
+    # Other/Normal unary signs: 'u-' 'u+'
     'u+': {'precedence': 3.5, 'associativity': 'right', 'unary': True, 'function': lambda x: x},
     'u-': {'precedence': 3.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
 
