@@ -1,5 +1,5 @@
 import pytest
-from calculator.expression_calculator import calculate_expression
+from calculator.core.expression_calculator import calculate_expression
 
 def test_empty_expression():
     with pytest.raises(ValueError):
@@ -165,3 +165,6 @@ def test_multiple_space_between_number():
 
 def test_unary_parenthesized_number_factorial():
     assert calculate_expression("2---(1+1+1)!") == -4
+
+def test_large_number_precision():
+    assert str(calculate_expression("4444444444444444444444444444444.000000")) == "4444444444444444444444444444444"

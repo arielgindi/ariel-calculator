@@ -1,4 +1,4 @@
-from calculator.operations import OPERATORS
+from calculator.core.operations import OPERATORS
 
 
 class Token:

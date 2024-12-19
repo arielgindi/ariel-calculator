@@ -1,4 +1,4 @@
-from calculator.Token import Token
+from calculator.core.Token import Token
 
 def validate_tilda(tokens: list[Token]) -> None:
     """

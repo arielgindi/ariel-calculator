@@ -1,6 +1,6 @@
 import pytest
 import time
-from calculator.expression_calculator import calculate_expression
+from calculator.core.expression_calculator import calculate_expression
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -41,7 +41,7 @@ def main():
             continue
         elif user_input.lower() == "test":
             counter = TestCounter()
-            exit_code = pytest.main(["tests"], plugins=[counter])
+            exit_code = pytest.main(["calculator/tests"], plugins=[counter])
             if counter.total > 0:
                 color = GREEN if exit_code == 0 else RED
                 print(color + f"Tests Passed: {counter.passed}/{counter.total}" + RESET)
