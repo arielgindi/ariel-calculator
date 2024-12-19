@@ -45,6 +45,3 @@ OPERATORS: dict[str, dict[str, object]] = {
     'u+': {'precedence': 6.5, 'associativity': 'right', 'unary': True,  'function': lambda x: x},
     'u-': {'precedence': 6.5, 'associativity': 'right', 'unary': True,  'function': lambda x: -x},
 }
-
-ALL_OPERATORS: str = ''.join(OPERATORS.keys())
-FILTERED_OPERATORS: str = ''.join(o for o in ALL_OPERATORS if o not in '+-')

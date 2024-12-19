@@ -1,5 +1,3 @@
-from linecache import cache
-
 import pytest
 from calculator.expression_calculator import calculate_expression
 
