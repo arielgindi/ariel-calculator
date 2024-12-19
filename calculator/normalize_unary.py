@@ -12,7 +12,7 @@ def normalize_unary(tokens: list[Token]) -> list[Token]:
     for t in tokens:
         if t.token_type == "OPERATOR":
             if t.value in ["+", "-"] and is_prev_operator:
-                t.value = f"u{t.value}"  # Convert to unary form.
+                t.value = f"b{t.value}"  # Convert to unary form.
             is_prev_operator = True  # Operators reset the unary context.
 
         elif t.token_type == "LPAREN":

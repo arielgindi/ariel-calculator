@@ -29,19 +29,30 @@ def sum_digits(n: float | int) -> float | int:
     digit_sum = sum(int(d) for d in s if d.isdigit())
     return -digit_sum if negative else digit_sum
 
+
+# Binary operators:                       '+'  and '-'
+# Unary operators following binary signs: 'b-' and 'b+'
+# Other unary operators:                  'u-' and 'u+'
+
 OPERATORS: dict[str, dict[str, object]] = {
-    '+':  {'precedence': 1,   'associativity': 'left',  'unary': False, 'function': lambda x, y: x + y},
-    '-':  {'precedence': 1,   'associativity': 'left',  'unary': False, 'function': lambda x, y: x - y},
-    '*':  {'precedence': 2,   'associativity': 'left',  'unary': False, 'function': lambda x, y: x * y},
-    '/':  {'precedence': 2,   'associativity': 'left',  'unary': False, 'function': safe_divide},
-    '^':  {'precedence': 3,   'associativity': 'right', 'unary': False, 'function': lambda x, y: pow(x, y)},
-    '%':  {'precedence': 4,   'associativity': 'left',  'unary': False, 'function': safe_modulo},
-    '$':  {'precedence': 5,   'associativity': 'left',  'unary': False, 'function': lambda x, y: max(x, y)},
-    '&':  {'precedence': 5,   'associativity': 'left',  'unary': False, 'function': lambda x, y: min(x, y)},
-    '@':  {'precedence': 5,   'associativity': 'left',  'unary': False, 'function': lambda x, y: (x + y) / 2},
-    '!':  {'precedence': 6,   'associativity': 'right', 'unary': True,  'function': lambda x: factorial(x)},
-    '#':  {'precedence': 6,   'associativity': 'right', 'unary': True,  'function': lambda x: sum_digits(x)},
-    '~':  {'precedence': 6.5, 'associativity': 'right', 'unary': True,  'function': lambda x: -x},
-    'u+': {'precedence': 6.5, 'associativity': 'right', 'unary': True,  'function': lambda x: x},
-    'u-': {'precedence': 6.5, 'associativity': 'right', 'unary': True,  'function': lambda x: -x},
+    '+': {'precedence': 1, 'associativity': 'left', 'unary': False, 'function': lambda x, y: x + y},
+    '-': {'precedence': 1, 'associativity': 'left', 'unary': False, 'function': lambda x, y: x - y},
+    '*': {'precedence': 2, 'associativity': 'left', 'unary': False, 'function': lambda x, y: x * y},
+    '/': {'precedence': 2, 'associativity': 'left', 'unary': False, 'function': safe_divide},
+    '^': {'precedence': 3, 'associativity': 'right', 'unary': False, 'function': lambda x, y: pow(x, y)},
+    '%': {'precedence': 4, 'associativity': 'left', 'unary': False, 'function': safe_modulo},
+    '$': {'precedence': 5, 'associativity': 'left', 'unary': False, 'function': lambda x, y: max(x, y)},
+    '&': {'precedence': 5, 'associativity': 'left', 'unary': False, 'function': lambda x, y: min(x, y)},
+    '@': {'precedence': 5, 'associativity': 'left', 'unary': False, 'function': lambda x, y: (x + y) / 2},
+    '!': {'precedence': 6, 'associativity': 'right', 'unary': True, 'function': lambda x: factorial(x)},
+    '#': {'precedence': 6, 'associativity': 'right', 'unary': True, 'function': lambda x: sum_digits(x)},
+    '~': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
+
+    # Other unary signs: 'u-' 'u+'
+    'u+': {'precedence': 3.5, 'associativity': 'right', 'unary': True, 'function': lambda x: x},
+    'u-': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
+
+    # Unary sign after binary sign: 'b-' 'b+'
+    'b+': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: x},
+    'b-': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
 }

@@ -22,9 +22,9 @@ def normalize_start_unary(tokens: list[Token]) -> list[Token]:
     # Handle leading unary operators
     while i < len(tokens) and tokens[i].token_type == "OPERATOR":
         operator = tokens[i].value
-        if operator == 'u+':
+        if operator == 'b+':
             result_tokens.extend([Token("NUMBER", 0), Token("OPERATOR", '+')])
-        elif operator == 'u-':
+        elif operator == 'b-':
             result_tokens.extend([Token("NUMBER", 0), Token("OPERATOR", '-')])
         else:
             raise ValueError(f"Unexpected operator {tokens[i]} after unary sign")

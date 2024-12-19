@@ -19,6 +19,6 @@ def calculate_expression(expression: str) -> float | int:
     unary_tokens = normalize_unary(tokens)
     validate_tilda(unary_tokens)
     normalized_start_unary = normalize_start_unary(unary_tokens)
-
+    print(normalized_start_unary)
     postfix_tokens: list[Token] = convert_to_postfix(normalized_start_unary)
     return postfix_calculator(postfix_tokens)

@@ -9,7 +9,7 @@ def validate_tilda(tokens: list[Token]) -> None:
     2. Multiple consecutive tilde operators (~) are not allowed before a single number.
     """
     def is_unary_sign(t: Token) -> bool:
-        return t.value in ["u-", "u+"]
+        return t.value in ["b-", "b+"]
 
     i: int = 1
     while i < len(tokens):
