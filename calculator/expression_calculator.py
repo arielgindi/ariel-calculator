@@ -1,3 +1,4 @@
+from calculator.normalize_unary import normalize_unary
 from calculator.tokenize import tokenize
 from calculator.Token import Token
 from calculator.postfix_parser import convert_to_postfix
@@ -10,5 +11,9 @@ def calculate_expression(expression: str) -> float | int:
 
     normalized_expr = final_preprocessing(expression)
     tokens: list[Token] = tokenize(normalized_expr)
-    postfix_tokens: list[Token] = convert_to_postfix(tokens)
+
+    unary_tokens = normalize_unary(tokens)
+
+
+    postfix_tokens: list[Token] = convert_to_postfix(unary_tokens)
     return postfix_calculator(postfix_tokens)

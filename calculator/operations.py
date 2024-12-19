@@ -3,10 +3,12 @@ def safe_divide(x: float | int, y: float | int) -> float | int:
         raise ZeroDivisionError("Division by zero")
     return x / y
 
+
 def safe_modulo(x: float | int, y: float | int) -> float | int:
     if y == 0:
         raise ZeroDivisionError("Modulo by zero")
     return x % y
+
 
 def factorial(n: float | int) -> float | int:
     # Factorial requires non-negative integers.
@@ -18,6 +20,7 @@ def factorial(n: float | int) -> float | int:
         res *= i
     return res
 
+
 def sum_digits(n: float | int) -> float | int:
     # Convert the number to string, handle sign and decimal point
     negative = (n < 0)
@@ -27,18 +30,20 @@ def sum_digits(n: float | int) -> float | int:
     return -digit_sum if negative else digit_sum
 
 OPERATORS: dict[str, dict[str, object]] = {
-    '+': {'precedence': 1, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x + y},
-    '-': {'precedence': 1, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x - y},
-    '*': {'precedence': 2, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x * y},
-    '/': {'precedence': 2, 'associativity': 'left',  'unary': False, 'function': safe_divide},
-    '^': {'precedence': 3, 'associativity': 'right', 'unary': False, 'function': lambda x, y: pow(x, y)},
-    '%': {'precedence': 4, 'associativity': 'left',  'unary': False, 'function': safe_modulo},
-    '$': {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: max(x, y)},
-    '&': {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: min(x, y)},
-    '@': {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: (x + y) / 2},
-    '!': {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: factorial(x)},
-    '~': {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: -x},
-    '#': {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: sum_digits(x)}
+    '+':  {'precedence': 1, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x + y},
+    '-':  {'precedence': 1, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x - y},
+    '*':  {'precedence': 2, 'associativity': 'left',  'unary': False, 'function': lambda x, y: x * y},
+    '/':  {'precedence': 2, 'associativity': 'left',  'unary': False, 'function': safe_divide},
+    '^':  {'precedence': 3, 'associativity': 'right', 'unary': False, 'function': lambda x, y: pow(x, y)},
+    'u+': {'precedence': 3, 'associativity': 'right', 'unary': True, 'function':  lambda x: x},
+    'u-': {'precedence': 3, 'associativity': 'right', 'unary': True, 'function':  lambda x: -x},
+    '%':  {'precedence': 4, 'associativity': 'left',  'unary': False, 'function': safe_modulo},
+    '$':  {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: max(x, y)},
+    '&':  {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: min(x, y)},
+    '@':  {'precedence': 5, 'associativity': 'left',  'unary': False, 'function': lambda x, y: (x + y) / 2},
+    '!':  {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: factorial(x)},
+    '~':  {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: -x},
+    '#':  {'precedence': 6, 'associativity': 'right', 'unary': True,  'function': lambda x: sum_digits(x)}
 }
 
 ALL_OPERATORS: str = ''.join(OPERATORS.keys())
