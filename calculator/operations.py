@@ -50,7 +50,7 @@ OPERATORS: dict[str, dict[str, object]] = {
 
     # Other unary signs: 'u-' 'u+'
     'u+': {'precedence': 3.5, 'associativity': 'right', 'unary': True, 'function': lambda x: x},
-    'u-': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
+    'u-': {'precedence': 3.5, 'associativity': 'right', 'unary': True, 'function': lambda x: -x},
 
     # Unary sign after binary sign: 'b-' 'b+'
     'b+': {'precedence': 6.5, 'associativity': 'right', 'unary': True, 'function': lambda x: x},

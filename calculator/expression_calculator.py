@@ -1,4 +1,3 @@
-from calculator.normalize_start_unary import normalize_start_unary
 from calculator.normalize_unary import normalize_unary
 from calculator.tokenize import tokenize
 from calculator.Token import Token
@@ -18,7 +17,5 @@ def calculate_expression(expression: str) -> float | int:
 
     unary_tokens = normalize_unary(tokens)
     validate_tilda(unary_tokens)
-    normalized_start_unary = normalize_start_unary(unary_tokens)
-    print(normalized_start_unary)
-    postfix_tokens: list[Token] = convert_to_postfix(normalized_start_unary)
+    postfix_tokens: list[Token] = convert_to_postfix(unary_tokens)
     return postfix_calculator(postfix_tokens)
