@@ -1,7 +1,10 @@
-from calculator.utils.remove_spaces import remove_spaces
-from calculator.utils.simplify_signs import simplify_signs
-
 def normalize_expression(expr: str) -> str:
+    """
+    Normalizes '~' usage to ensure valid expressions by validating placement
+    and converting '~+' or '~-3' into their normalized forms.
+    Example: "~+3" becomes "~3", "~-3" becomes "3"
+    Example: "~-3!" raises ValueError, "~5!" raises ValueError
+    """
     i = 0
     result = ""
     length = len(expr)
@@ -34,24 +37,25 @@ def normalize_expression(expr: str) -> str:
                     i += 1
                     continue
             elif next_char in '+-':
+                print("next_char is ", next_char)
                 sign = next_char
                 i += 2
                 # After ~+ or ~-, we must have a digit immediately
-                if i >= length or not expr[i].isdigit():
-                    raise ValueError(f"Invalid usage of '~{sign}': no number follows.")
+                if i >= length or not expr[i].isdigit(): # or (
+                    raise ValueError(f"Invalid usage of '~{sign}': no number follows.") #  or (
                 start = i
                 while i < length and (expr[i].isdigit() or expr[i] == '.'):
                     i += 1
                 number_str = expr[start:i]
                 # If next char is '!', again invalid without parentheses
-                if i < length and expr[i] == '!':
+                if i < length and expr[i] == '!' and next_char != '-':
                     raise ValueError("Invalid usage of '~' before factorial without parentheses.")
                 if sign == '+':
                     # "~+3" -> "~3"
                     result += '~' + number_str
                 else:
-                    # "~-3" -> "~(-3)"
-                    result += '~(' + sign + number_str + ')'
+                    # "~-3" -> "3"
+                    result += number_str
                 continue
             elif next_char == '~':
                 raise ValueError("Multiple consecutive '~' operators without parentheses are not allowed.")
@@ -61,9 +65,3 @@ def normalize_expression(expr: str) -> str:
             result += c
             i += 1
     return result
-
-def final_preprocessing(expression: str) -> str:
-    no_space_expr = remove_spaces(expression)
-    simplified_expr = simplify_signs(no_space_expr)
-    normalized = normalize_expression(simplified_expr)
-    return normalized

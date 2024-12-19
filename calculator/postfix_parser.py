@@ -1,7 +1,12 @@
-from calculator.tokens import Token
+from calculator.Token import Token
 from calculator.operations import OPERATORS
 
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
+    """
+    Converts an infix tokenized expression to postfix notation using the Shunting Yard algorithm.
+    Example: [Token("NUMBER", 3), Token("OPERATOR", "+"), Token("NUMBER", 4)] returns [Token("NUMBER", 3), Token("NUMBER", 4), Token("OPERATOR", "+")].
+    Raises ValueError for mismatched parentheses or unknown operators.
+    """
     if not tokens:
         raise ValueError("Cannot convert an empty token list to postfix.")
 
