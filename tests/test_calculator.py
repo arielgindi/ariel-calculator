@@ -1,3 +1,5 @@
+from linecache import cache
+
 import pytest
 from calculator.expression_calculator import calculate_expression
 
@@ -159,3 +161,6 @@ def test_unary_minus_power_precedence():
 def test_multiple_space_between_number():
     with pytest.raises(ValueError):
         calculate_expression("123 456")
+
+def test_unary_parenthesized_number_factorial():
+    assert calculate_expression("2---(1+1+1)!") == -4
