@@ -1,5 +1,5 @@
 import pytest
-from calculator.expression_calculator import calculate_expression
+from calculator.core.expression_calculator import calculate_expression
 
 def test_empty_expression():
     with pytest.raises(ValueError):

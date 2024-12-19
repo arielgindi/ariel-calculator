@@ -1,4 +1,4 @@
-from calculator.Token import Token
+from calculator.core.Token import Token
 
 def normalize_unary(tokens: list[Token]) -> list[Token]:
     """

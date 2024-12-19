@@ -1,6 +1,7 @@
-from calculator.Token import Token
-from calculator.operations import OPERATORS
+from calculator.core.Token import Token
+from calculator.core.operations import OPERATORS
 from calculator.utils.parse_number import parse_number
+from calculator.utils.remove_spaces import remove_spaces
 
 
 def tokenize(expression: str) -> list[Token]:
@@ -9,7 +10,7 @@ def tokenize(expression: str) -> list[Token]:
     Example: "3 + 4" returns [Token("NUMBER", 3), Token("OPERATOR", "+"), Token("NUMBER", 4)].
     """
 
-    expr = expression
+    expr = remove_spaces(expression)
     tokens: list[Token] = []
     length: int = len(expr)
     index: int = 0

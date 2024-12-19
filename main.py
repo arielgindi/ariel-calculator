@@ -1,6 +1,6 @@
 import pytest
 import time
-from calculator.expression_calculator import calculate_expression
+from calculator.core.expression_calculator import calculate_expression
 
 RED = "\033[31m"
 GREEN = "\033[32m"
