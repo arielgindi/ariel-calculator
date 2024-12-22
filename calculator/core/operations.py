@@ -11,6 +11,9 @@ def safe_modulo(x: float | int, y: float | int) -> float | int:
 
 
 def factorial(n: float | int) -> float | int:
+    if 1558 < n:
+        raise ValueError("Number is too large to calculate!")
+
     # Factorial requires non-negative integers.
     if n < 0 or n != int(n):
         raise ValueError("Factorial is not defined for negative or non-integer values")

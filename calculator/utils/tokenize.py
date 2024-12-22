@@ -35,7 +35,7 @@ def tokenize(expression: str) -> list[Token]:
                 index += 1
             number_str = expr[start:index]
 
-            number = parse_number(number_str) # string to number
+            number = parse_number(number_str)  # string to number
             tokens.append(Token("NUMBER", number))
             continue
 

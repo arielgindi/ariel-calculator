@@ -1,6 +1,6 @@
-import pytest
 import time
 from calculator.core.expression_calculator import calculate_expression
+from calculator.tests.run_tests import run_tests
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -8,45 +8,38 @@ CYAN = "\033[36m"
 BOLD = "\033[1m"
 RESET = "\033[0m"
 
-class TestCounter:
-    def __init__(self):
-        self.total = 0
-        self.passed = 0
 
-    def pytest_runtest_logreport(self, report):
-        if report.when == "call":
-            self.total += 1
-            if report.passed:
-                self.passed += 1
+def print_welcome():
+    """Print the welcome banner and usage instructions."""
+    print(f"{CYAN}====================================={RESET}")
+    print(f"{CYAN}{BOLD}          Gindi Calculator{RESET}")
+    print(f"{CYAN}====================================={RESET}")
+    print("Type an expression and press Enter.")
+    print(f"Commands: {BOLD}{CYAN}test{RESET}, {BOLD}{CYAN}exit{RESET}")
+    print()
+
 
 def main():
-    print(CYAN + "=====================================" + RESET)
-    print(CYAN + BOLD + "          Gindi Calculator" + RESET)
-    print(CYAN + "=====================================" + RESET)
-    print("Type an expression and press Enter.")
-    print("Commands: " + BOLD + CYAN + "test" + RESET + ", " + BOLD + CYAN + "quit" + RESET + ", " + BOLD + CYAN + "exit" + RESET)
-    print()
+    print_welcome()
 
     while True:
         try:
-            user_input = input(CYAN + ">> " + RESET).strip()
+            user_input = input(f"{CYAN}>> {RESET}").strip()
         except (EOFError, KeyboardInterrupt):
             print("\nGoodbye!")
             break
 
-        if user_input.lower() in ["quit", "exit"]:
+        if not user_input:
+            continue
+
+        user_input_lower = user_input.lower()
+
+        if user_input_lower in {"quit", "exit"}:
             print("Goodbye!")
             break
-        elif not user_input:
-            continue
-        elif user_input.lower() == "test":
-            counter = TestCounter()
-            exit_code = pytest.main(["calculator/tests"], plugins=[counter])
-            if counter.total > 0:
-                color = GREEN if exit_code == 0 else RED
-                print(color + f"Tests Passed: {counter.passed}/{counter.total}" + RESET)
-            else:
-                print(RED + "No tests found." + RESET)
+
+        if user_input_lower == "test":
+            run_tests()
             continue
 
         start_time = time.perf_counter()
@@ -56,7 +49,8 @@ def main():
             print(f"{GREEN}Result: {result}{RESET} ({elapsed_s:.3f}s)")
         except Exception as e:
             elapsed_s = time.perf_counter() - start_time
-            print(RED + f"Error: {e}" + RESET + f" ({elapsed_s:.3f}s)")
+            print(f"{RED}Error: {e}{RESET} ({elapsed_s:.3f}s)")
+
 
 if __name__ == "__main__":
     main()
