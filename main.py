@@ -1,7 +1,6 @@
 import time
-import pytest
-
 from calculator.core.expression_calculator import calculate_expression
+from calculator.tests.run_tests import run_tests
 
 RED = "\033[31m"
 GREEN = "\033[32m"
@@ -10,25 +9,18 @@ BOLD = "\033[1m"
 RESET = "\033[0m"
 
 
-class TestCounter:
-    def __init__(self):
-        self.total = 0
-        self.passed = 0
-
-    def pytest_runtest_logreport(self, report):
-        if report.when == "call":
-            self.total += 1
-            if report.passed:
-                self.passed += 1
-
-
-def main():
+def print_welcome():
+    """Print the welcome banner and usage instructions."""
     print(f"{CYAN}====================================={RESET}")
     print(f"{CYAN}{BOLD}          Gindi Calculator{RESET}")
     print(f"{CYAN}====================================={RESET}")
     print("Type an expression and press Enter.")
-    print(f"Commands: {BOLD}{CYAN}test{RESET}, {BOLD}{CYAN}quit{RESET}, {BOLD}{CYAN}exit{RESET}")
+    print(f"Commands: {BOLD}{CYAN}test{RESET}, {BOLD}{CYAN}exit{RESET}")
     print()
+
+
+def main():
+    print_welcome()
 
     while True:
         try:
@@ -37,23 +29,17 @@ def main():
             print("\nGoodbye!")
             break
 
-        # 1) Lower the input once
+        if not user_input:
+            continue
+
         user_input_lower = user_input.lower()
 
-        # 3) Use a set for membership checks
         if user_input_lower in {"quit", "exit"}:
             print("Goodbye!")
             break
-        elif not user_input:
-            continue
-        elif user_input_lower == "test":
-            counter = TestCounter()
-            exit_code = pytest.main(["calculator/tests"], plugins=[counter])
-            if counter.total > 0:
-                color = GREEN if exit_code == 0 else RED
-                print(f"{color}Tests Passed: {counter.passed}/{counter.total}{RESET}")
-            else:
-                print(f"{RED}No tests found.{RESET}")
+
+        if user_input_lower == "test":
+            run_tests()
             continue
 
         start_time = time.perf_counter()
