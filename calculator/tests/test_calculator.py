@@ -101,11 +101,6 @@ def test_simple_factorial():
 def test_factorial_after_negative():
     assert calculate_expression("-10!") == -3628800
 
-
-# currently removed because im not sure about the answer
-# def test_tilde_minus_combination_1():
-#    assert calculate_expression("~4-~-10^2") == 96
-
 def test_tilde_minus_combination_2():
     with pytest.raises(ValueError):
         assert calculate_expression("~4--~10^2") == 96
