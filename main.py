@@ -1,5 +1,4 @@
 import time
-
 import pytest
 
 from calculator.core.expression_calculator import calculate_expression
@@ -24,34 +23,37 @@ class TestCounter:
 
 
 def main():
-    print(CYAN + "=====================================" + RESET)
-    print(CYAN + BOLD + "          Gindi Calculator" + RESET)
-    print(CYAN + "=====================================" + RESET)
+    print(f"{CYAN}====================================={RESET}")
+    print(f"{CYAN}{BOLD}          Gindi Calculator{RESET}")
+    print(f"{CYAN}====================================={RESET}")
     print("Type an expression and press Enter.")
-    print(
-        "Commands: " + BOLD + CYAN + "test" + RESET + ", " + BOLD + CYAN + "quit" + RESET + ", " + BOLD + CYAN + "exit" + RESET)
+    print(f"Commands: {BOLD}{CYAN}test{RESET}, {BOLD}{CYAN}quit{RESET}, {BOLD}{CYAN}exit{RESET}")
     print()
 
     while True:
         try:
-            user_input = input(CYAN + ">> " + RESET).strip()
+            user_input = input(f"{CYAN}>> {RESET}").strip()
         except (EOFError, KeyboardInterrupt):
             print("\nGoodbye!")
             break
 
-        if user_input.lower() in ["quit", "exit"]:
+        # 1) Lower the input once
+        user_input_lower = user_input.lower()
+
+        # 3) Use a set for membership checks
+        if user_input_lower in {"quit", "exit"}:
             print("Goodbye!")
             break
         elif not user_input:
             continue
-        elif user_input.lower() == "test":
+        elif user_input_lower == "test":
             counter = TestCounter()
             exit_code = pytest.main(["calculator/tests"], plugins=[counter])
             if counter.total > 0:
                 color = GREEN if exit_code == 0 else RED
-                print(color + f"Tests Passed: {counter.passed}/{counter.total}" + RESET)
+                print(f"{color}Tests Passed: {counter.passed}/{counter.total}{RESET}")
             else:
-                print(RED + "No tests found." + RESET)
+                print(f"{RED}No tests found.{RESET}")
             continue
 
         start_time = time.perf_counter()
@@ -61,7 +63,7 @@ def main():
             print(f"{GREEN}Result: {result}{RESET} ({elapsed_s:.3f}s)")
         except Exception as e:
             elapsed_s = time.perf_counter() - start_time
-            print(RED + f"Error: {e}" + RESET + f" ({elapsed_s:.3f}s)")
+            print(f"{RED}Error: {e}{RESET} ({elapsed_s:.3f}s)")
 
 
 if __name__ == "__main__":
