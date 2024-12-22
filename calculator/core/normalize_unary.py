@@ -1,5 +1,6 @@
 from calculator.core.Token import Token
 
+
 def normalize_unary(tokens: list[Token]) -> list[Token]:
     """
     Adjust unary and binary operators in tokens to their correct form.

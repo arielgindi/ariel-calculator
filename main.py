@@ -1,5 +1,7 @@
-import pytest
 import time
+
+import pytest
+
 from calculator.core.expression_calculator import calculate_expression
 
 RED = "\033[31m"
@@ -7,6 +9,7 @@ GREEN = "\033[32m"
 CYAN = "\033[36m"
 BOLD = "\033[1m"
 RESET = "\033[0m"
+
 
 class TestCounter:
     def __init__(self):
@@ -19,12 +22,14 @@ class TestCounter:
             if report.passed:
                 self.passed += 1
 
+
 def main():
     print(CYAN + "=====================================" + RESET)
     print(CYAN + BOLD + "          Gindi Calculator" + RESET)
     print(CYAN + "=====================================" + RESET)
     print("Type an expression and press Enter.")
-    print("Commands: " + BOLD + CYAN + "test" + RESET + ", " + BOLD + CYAN + "quit" + RESET + ", " + BOLD + CYAN + "exit" + RESET)
+    print(
+        "Commands: " + BOLD + CYAN + "test" + RESET + ", " + BOLD + CYAN + "quit" + RESET + ", " + BOLD + CYAN + "exit" + RESET)
     print()
 
     while True:
@@ -57,6 +62,7 @@ def main():
         except Exception as e:
             elapsed_s = time.perf_counter() - start_time
             print(RED + f"Error: {e}" + RESET + f" ({elapsed_s:.3f}s)")
+
 
 if __name__ == "__main__":
     main()

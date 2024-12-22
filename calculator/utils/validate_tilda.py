@@ -1,5 +1,6 @@
 from calculator.core.Token import Token
 
+
 def validate_tilda(tokens: list[Token]) -> None:
     """
     Validate correct usage of the '~' operator:

@@ -1,6 +1,7 @@
 from calculator.core.Token import Token
 from calculator.core.operations import OPERATORS
 
+
 def convert_to_postfix(tokens: list[Token]) -> list[Token]:
     """
     Converts an infix tokenized expression to postfix notation using the Shunting Yard algorithm.

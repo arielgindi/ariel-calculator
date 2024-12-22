@@ -1,8 +1,8 @@
-from calculator.core.normalize_unary import normalize_unary
-from calculator.utils.tokenize import tokenize
 from calculator.core.Token import Token
-from calculator.core.postfix_parser import convert_to_postfix
+from calculator.core.normalize_unary import normalize_unary
 from calculator.core.postfix_calculator import postfix_calculator
+from calculator.core.postfix_parser import convert_to_postfix
+from calculator.utils.tokenize import tokenize
 from calculator.utils.validate_tilda import validate_tilda
 
 
