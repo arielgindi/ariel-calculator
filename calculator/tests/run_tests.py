@@ -23,12 +23,26 @@ class TestCounter:
 
 
 def run_tests():
-    """Run the test suite using pytest and display the result."""
+    """Run the test suite using pytest."""
+    print(f"{CYAN}Running tests...{RESET}\n")
     counter = TestCounter()
-    exit_code = pytest.main(["calculator/tests"], plugins=[counter])
+    exit_code = pytest.main(
+        ["calculator/tests", "-q", "--disable-warnings"],  # `-q` for concise output
+        plugins=[counter]
+    )
+
     if counter.total == 0:
         print(f"{RED}No tests found.{RESET}")
         return
 
+    # Display the summary with colors
     color = GREEN if exit_code == 0 else RED
-    print(f"{color}Tests Passed: {counter.passed}/{counter.total}{RESET}")
+    result_message = (
+        f"\n{color}Tests Passed: {BOLD}{counter.passed}/{counter.total}{RESET}"
+    )
+    print(result_message)
+
+    if exit_code == 0:
+        print(f"{GREEN}All tests passed successfully!{RESET}")
+    else:
+        print(f"{RED}Some tests failed. Check the details above.{RESET}")
